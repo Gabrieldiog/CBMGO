@@ -2,8 +2,44 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import ParticlesBackground from '../../components/ParticlesBackground/ParticlesBackground';
 import styles from './HistoriaCorporacao.module.css';
+import type { TouchEvent as ReactTouchEvent, WheelEvent as ReactWheelEvent } from 'react';
 
-const PAGES = [
+interface CoverPage {
+    type: 'cover';
+    title: string;
+    subtitle: string;
+    year: string;
+    desc: string;
+    content?: never;
+    chapter?: never;
+    highlight?: never;
+}
+
+interface ChapterPage {
+    type: 'chapter';
+    chapter: string;
+    title: string;
+    content: string;
+    highlight: string;
+    year: string;
+    subtitle?: never;
+    desc?: never;
+}
+
+interface FinalPage {
+    type: 'final';
+    title: string;
+    content: string;
+    highlight: string;
+    year: string;
+    subtitle?: never;
+    desc?: never;
+    chapter?: never;
+}
+
+type BookPage = CoverPage | ChapterPage | FinalPage;
+
+const PAGES: BookPage[] = [
     {
         type: 'cover',
         title: 'História do CBMGO',
@@ -150,12 +186,12 @@ export default function HistoriaCorporacao() {
     const [currentPage, setCurrentPage] = useState(0);
     const [direction, setDirection] = useState(0);
     const [isFlipping, setIsFlipping] = useState(false);
-    const touchStart = useRef(null);
-    const containerRef = useRef(null);
+    const touchStart = useRef<number | null>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
 
     const totalPages = PAGES.length;
 
-    const goToPage = useCallback((newPage, dir) => {
+    const goToPage = useCallback((newPage: number, dir: number) => {
         if (isFlipping || newPage < 0 || newPage >= totalPages) return;
         setIsFlipping(true);
         setDirection(dir);
@@ -167,7 +203,7 @@ export default function HistoriaCorporacao() {
     const prevPage = useCallback(() => goToPage(currentPage - 1, -1), [currentPage, goToPage]);
 
     useEffect(() => {
-        const handleKeyDown = (e) => {
+        const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'ArrowRight' || e.key === 'ArrowDown') nextPage();
             if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prevPage();
         };
@@ -175,11 +211,11 @@ export default function HistoriaCorporacao() {
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [nextPage, prevPage]);
 
-    const handleTouchStart = (e) => {
+    const handleTouchStart = (e: ReactTouchEvent) => {
         touchStart.current = e.touches[0].clientX;
     };
 
-    const handleTouchEnd = (e) => {
+    const handleTouchEnd = (e: ReactTouchEvent) => {
         if (touchStart.current === null) return;
         const diff = touchStart.current - e.changedTouches[0].clientX;
         if (Math.abs(diff) > 50) {
@@ -189,7 +225,7 @@ export default function HistoriaCorporacao() {
         touchStart.current = null;
     };
 
-    const handleWheel = useCallback((e) => {
+    const handleWheel = useCallback((e: ReactWheelEvent) => {
         if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) {
             if (e.deltaX > 30) nextPage();
             else if (e.deltaX < -30) prevPage();
@@ -199,7 +235,7 @@ export default function HistoriaCorporacao() {
     const page = PAGES[currentPage];
 
     const pageVariants = {
-        enter: (dir) => ({
+        enter: (dir: number) => ({
             rotateY: dir > 0 ? 90 : -90,
             opacity: 0,
             scale: 0.95,
@@ -209,7 +245,7 @@ export default function HistoriaCorporacao() {
             opacity: 1,
             scale: 1,
         },
-        exit: (dir) => ({
+        exit: (dir: number) => ({
             rotateY: dir > 0 ? -90 : 90,
             opacity: 0,
             scale: 0.95,

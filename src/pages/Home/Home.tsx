@@ -6,10 +6,18 @@ import ScrollReveal from '../../components/ScrollReveal/ScrollReveal';
 import { useCounterAnimation } from '../../hooks/useCounterAnimation';
 import { useCollections } from '../../hooks/useCollections';
 import { COLLECTIONS_MAP } from '../../api/tainacan';
+import type { TainacanItem } from '../../api/tainacan';
 import { FireHelmetIcon, DocumentScrollIcon, CameraHistoricIcon, PhoenixIcon } from '../../components/Icons/BombeiroIcons';
 import styles from './Home.module.css';
+import type { ReactNode } from 'react';
 
-function StatCounter({ end, suffix = '', label }) {
+interface StatCounterProps {
+    end: number;
+    suffix?: string;
+    label: string;
+}
+
+function StatCounter({ end, suffix = '', label }: StatCounterProps) {
     const { count, ref } = useCounterAnimation(end, 2500);
     return (
         <div className={styles.stat} ref={ref}>
@@ -19,13 +27,20 @@ function StatCounter({ end, suffix = '', label }) {
     );
 }
 
+interface CbmgoCard {
+    title: string;
+    desc: string;
+    tag: string;
+    link: string;
+    icon: ReactNode;
+}
+
 export default function Home() {
     const collections = Object.values(COLLECTIONS_MAP);
     const { collections: apiCollections } = useCollections();
 
-    // Extrair contagens reais da API
-    const getCount = (name) => {
-        const col = apiCollections.find(c => c.name === name);
+    const getCount = (name: string): number => {
+        const col = apiCollections.find((c: TainacanItem) => c.name === name);
         return col?.total_items?.publish ? parseInt(col.total_items.publish) : 0;
     };
     const objetos = getCount('Objetos');
@@ -40,14 +55,35 @@ export default function Home() {
         { year: '1989', title: 'Segurança Pública', desc: 'Constituição Estadual consolida o CBMGO como órgão da Segurança Pública.' },
     ];
 
-    // Ícones SVG para os cards de coleções
-    const collectionIcons = {
+    const collectionIcons: Record<string, ReactNode> = {
         'objetos': <FireHelmetIcon size={56} />,
         'documentos': <DocumentScrollIcon size={56} />,
         'fotografias': <CameraHistoricIcon size={56} />,
     };
 
-
+    const cbmgoCards: CbmgoCard[] = [
+        {
+            title: 'Nossa Missão',
+            desc: 'Proteger vidas, patrimônio e meio ambiente por meio de ações de prevenção, combate a incêndios, busca e salvamento em todo o Estado de Goiás.',
+            tag: 'Institucional',
+            link: '/corporacao',
+            icon: <PhoenixIcon size={64} />,
+        },
+        {
+            title: 'Nossa História',
+            desc: 'De 11 policiais militares enviados a Minas Gerais em 1957 a uma corporação autônoma presente em todo o estado — conheça nossa trajetória.',
+            tag: 'Desde 1957',
+            link: '/historia',
+            icon: <DocumentScrollIcon size={64} color="#FF6600" />,
+        },
+        {
+            title: 'O Museu Virtual',
+            desc: 'Um espaço digital dedicado a preservar e compartilhar a memória histórica do Corpo de Bombeiros Militar de Goiás com toda a sociedade.',
+            tag: 'Acervo Digital',
+            link: '/sobre',
+            icon: <CameraHistoricIcon size={64} color="#FF8533" />,
+        },
+    ];
 
     return (
         <div className={styles.home}>
@@ -55,7 +91,7 @@ export default function Home() {
             <section className={styles.hero}>
                 <div className={styles.heroOverlay}></div>
                 <div className={styles.heroPattern}></div>
-                <InteractiveConstellation nodeCount={70} maxDistance={160} mouseRadius={220} />
+                <InteractiveConstellation count={200} />
                 <div className={styles.heroContent}>
                     <motion.span
                         className={styles.heroLabel}
@@ -156,29 +192,7 @@ export default function Home() {
                         <p className="section-subtitle">Mais de 65 anos dedicados à proteção da vida e do patrimônio goiano</p>
                     </ScrollReveal>
                     <div className={styles.featuredGrid}>
-                        {[
-                            {
-                                title: 'Nossa Missão',
-                                desc: 'Proteger vidas, patrimônio e meio ambiente por meio de ações de prevenção, combate a incêndios, busca e salvamento em todo o Estado de Goiás.',
-                                tag: 'Institucional',
-                                link: '/corporacao',
-                                icon: <PhoenixIcon size={64} />,
-                            },
-                            {
-                                title: 'Nossa História',
-                                desc: 'De 11 policiais militares enviados a Minas Gerais em 1957 a uma corporação autônoma presente em todo o estado — conheça nossa trajetória.',
-                                tag: 'Desde 1957',
-                                link: '/historia',
-                                icon: <DocumentScrollIcon size={64} color="#FF6600" />,
-                            },
-                            {
-                                title: 'O Museu Virtual',
-                                desc: 'Um espaço digital dedicado a preservar e compartilhar a memória histórica do Corpo de Bombeiros Militar de Goiás com toda a sociedade.',
-                                tag: 'Acervo Digital',
-                                link: '/sobre',
-                                icon: <CameraHistoricIcon size={64} color="#FF8533" />,
-                            },
-                        ].map((item, i) => (
+                        {cbmgoCards.map((item, i) => (
                             <ScrollReveal key={i} delay={i * 0.15}>
                                 <Link to={item.link} className={styles.featuredCard}>
                                     <div className={styles.featuredImage}>

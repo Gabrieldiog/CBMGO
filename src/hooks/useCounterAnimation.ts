@@ -1,8 +1,13 @@
 import { useEffect, useState, useRef } from 'react';
 
-export function useCounterAnimation(end, duration = 2000) {
+interface UseCounterAnimationReturn {
+    count: number;
+    ref: React.RefObject<HTMLDivElement | null>;
+}
+
+export function useCounterAnimation(end: number, duration: number = 2000): UseCounterAnimationReturn {
     const [count, setCount] = useState(0);
-    const ref = useRef(null);
+    const ref = useRef<HTMLDivElement | null>(null);
     const [started, setStarted] = useState(false);
 
     useEffect(() => {
@@ -25,8 +30,8 @@ export function useCounterAnimation(end, duration = 2000) {
 
     useEffect(() => {
         if (!started) return;
-        let startTime = null;
-        const step = (timestamp) => {
+        let startTime: number | null = null;
+        const step = (timestamp: number) => {
             if (!startTime) startTime = timestamp;
             const progress = Math.min((timestamp - startTime) / duration, 1);
             const eased = 1 - Math.pow(1 - progress, 3);

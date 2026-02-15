@@ -6,8 +6,8 @@ import { useItems } from '../../hooks/useItems';
 import styles from './CollectionDetail.module.css';
 
 export default function CollectionDetail() {
-    const { slug } = useParams();
-    const collection = getCollectionBySlug(slug);
+    const { slug } = useParams<{ slug: string }>();
+    const collection = getCollectionBySlug(slug || '');
     const [page, setPage] = useState(1);
     const { items, totalItems, totalPages, loading } = useItems(collection?.id, page);
 
@@ -52,13 +52,13 @@ export default function CollectionDetail() {
                                         <Link to={`/item/${item.id}`} className={styles.itemCard}>
                                             <div className={styles.itemImage}>
                                                 {getThumbnailUrl(item) ? (
-                                                    <img src={getThumbnailUrl(item)} alt={typeof item.title === 'string' ? item.title : item.title?.rendered || ''} />
+                                                    <img src={getThumbnailUrl(item)!} alt={typeof item.title === 'string' ? item.title : (item.title as { rendered: string })?.rendered || ''} />
                                                 ) : (
                                                     <div className={styles.itemPlaceholder}>{collection.icon}</div>
                                                 )}
                                             </div>
                                             <div className={styles.itemInfo}>
-                                                <h3>{typeof item.title === 'string' ? item.title : item.title?.rendered || 'Sem título'}</h3>
+                                                <h3>{typeof item.title === 'string' ? item.title : (item.title as { rendered: string })?.rendered || 'Sem título'}</h3>
                                             </div>
                                         </Link>
                                     </ScrollReveal>

@@ -1,16 +1,24 @@
 import { useState } from 'react';
+import type { ChangeEvent, FormEvent } from 'react';
 import ScrollReveal from '../../components/ScrollReveal/ScrollReveal';
 import ParticlesBackground from '../../components/ParticlesBackground/ParticlesBackground';
 import styles from './Contact.module.css';
 
-export default function Contact() {
-    const [formData, setFormData] = useState({ nome: '', email: '', assunto: '', mensagem: '' });
+interface ContactFormData {
+    nome: string;
+    email: string;
+    assunto: string;
+    mensagem: string;
+}
 
-    const handleChange = (e) => {
+export default function Contact() {
+    const [formData, setFormData] = useState<ContactFormData>({ nome: '', email: '', assunto: '', mensagem: '' });
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         alert('Mensagem enviada! (demonstração)');
         setFormData({ nome: '', email: '', assunto: '', mensagem: '' });
@@ -84,7 +92,7 @@ export default function Contact() {
                                 </div>
                                 <div className={styles.field}>
                                     <label htmlFor="mensagem">Mensagem</label>
-                                    <textarea id="mensagem" name="mensagem" rows="5" value={formData.mensagem} onChange={handleChange} required />
+                                    <textarea id="mensagem" name="mensagem" rows={5} value={formData.mensagem} onChange={handleChange} required />
                                 </div>
                                 <button type="submit" className="btn btn--primary">Enviar Mensagem</button>
                             </form>

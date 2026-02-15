@@ -4,11 +4,17 @@ import ParticlesBackground from '../../components/ParticlesBackground/ParticlesB
 import { FireHelmetIcon, DocumentScrollIcon, CameraHistoricIcon } from '../../components/Icons/BombeiroIcons';
 import { COLLECTIONS_MAP } from '../../api/tainacan';
 import styles from './Exhibition.module.css';
+import type { ReactNode } from 'react';
+
+interface Room {
+    title: string;
+    desc: string;
+    icon: ReactNode;
+    slug: string;
+}
 
 export default function Exhibition() {
-    const collections = Object.values(COLLECTIONS_MAP);
-
-    const rooms = [
+    const rooms: Room[] = [
         { title: 'Sala de Objetos Históricos', desc: 'Peças que materializam a história da corporação ao longo dos séculos.', icon: <FireHelmetIcon size={40} />, slug: 'objetos' },
         { title: 'Sala de Documentos', desc: 'Registros oficiais, cartas e publicações que documentam a trajetória institucional.', icon: <DocumentScrollIcon size={40} />, slug: 'documentos' },
         { title: 'Galeria Fotográfica', desc: 'Imagens que capturam momentos inesquecíveis da história corporativa.', icon: <CameraHistoricIcon size={40} />, slug: 'fotografias' },
