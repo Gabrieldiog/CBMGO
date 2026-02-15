@@ -1,0 +1,183 @@
+.page {
+    min-height: 100vh;
+}
+
+.hero {
+    position: relative;
+    height: 55vh;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0A0A0A 0%, #8B0000 60%, #CC0000 100%);
+    overflow: hidden;
+}
+
+.heroOverlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255, 102, 0, 0.06), transparent 70%);
+}
+
+.heroContent {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    padding: 0 2rem;
+}
+
+.label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #FF6600;
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.4rem 1.5rem;
+    border: 1px solid rgba(255, 102, 0, 0.3);
+    border-radius: 2px;
+}
+
+.subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    color: rgba(255, 245, 238, 0.85);
+    margin-top: 1rem;
+}
+
+.intro {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 4rem;
+}
+
+.intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #FF6600;
+    margin-bottom: 1rem;
+}
+
+.intro p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 245, 238, 0.7);
+    line-height: 1.8;
+}
+
+.roomsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.roomCard {
+    display: block;
+    text-decoration: none;
+    background: linear-gradient(145deg, rgba(26, 26, 26, 0.9), rgba(10, 10, 10, 0.95));
+    border: 1px solid rgba(255, 102, 0, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.4s ease;
+}
+
+.roomCard:hover {
+    transform: translateY(-8px);
+    border-color: rgba(255, 102, 0, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 102, 0, 0.1);
+}
+
+.roomHeader {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.4), rgba(26, 26, 26, 0.8));
+    position: relative;
+    overflow: hidden;
+}
+
+.roomIcon {
+    font-size: 4rem;
+}
+
+.roomShimmer {
+    position: absolute;
+    inset: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 102, 0, 0.06), transparent);
+    transition: left 0.6s ease;
+}
+
+.roomCard:hover .roomShimmer {
+    left: 100%;
+}
+
+.roomBody {
+    padding: 2rem;
+}
+
+.roomNum {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255, 102, 0, 0.6);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.roomTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+}
+
+.roomDesc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem;
+    color: rgba(255, 245, 238, 0.6);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.roomLink {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    color: #FF6600;
+    text-transform: uppercase;
+    transition: letter-spacing 0.3s ease;
+}
+
+.roomCard:hover .roomLink {
+    letter-spacing: 0.25em;
+}
+
+.ctaSection {
+    background: linear-gradient(135deg, #8B0000, #CC0000);
+}
+
+.ctaTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: #FFFFFF;
+    margin-bottom: 1rem;
+}
+
+.ctaText {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    color: rgba(255, 245, 238, 0.8);
+    margin-bottom: 2rem;
+}
+
+@media (max-width: 900px) {
+    .roomsGrid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+}

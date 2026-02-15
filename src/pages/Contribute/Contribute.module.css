@@ -1,0 +1,201 @@
+.page {
+    min-height: 100vh;
+}
+
+.hero {
+    position: relative;
+    height: 45vh;
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #0A0A0A, #8B0000);
+    overflow: hidden;
+}
+
+.heroOverlay {
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    background-image: linear-gradient(#FF6600 1px, transparent 1px), linear-gradient(90deg, #FF6600 1px, transparent 1px);
+    background-size: 60px 60px;
+}
+
+.heroContent {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 2rem;
+}
+
+.label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #FF6600;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    color: rgba(255, 245, 238, 0.8);
+    margin-top: 1rem;
+}
+
+.intro {
+    margin-bottom: 3rem;
+    padding: 2.5rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid rgba(255, 102, 0, 0.08);
+    border-radius: 12px;
+}
+
+.intro h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    color: #FF6600;
+    margin-bottom: 1rem;
+}
+
+.intro p {
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: rgba(255, 245, 238, 0.8);
+    line-height: 1.8;
+}
+
+.stepsTitle {
+    margin-bottom: 2rem;
+}
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.step {
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    padding: 1.5rem 2rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid rgba(255, 102, 0, 0.08);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.step:hover {
+    border-color: rgba(255, 102, 0, 0.25);
+    transform: translateX(8px);
+}
+
+.stepNum {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: #FF6600;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.stepTitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: #FFFFFF;
+    margin-bottom: 0.35rem;
+}
+
+.stepDesc {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: rgba(255, 245, 238, 0.6);
+    line-height: 1.5;
+}
+
+.types {
+    margin-bottom: 3rem;
+    padding: 2.5rem;
+    background: rgba(26, 26, 26, 0.5);
+    border: 1px solid rgba(255, 102, 0, 0.08);
+    border-radius: 12px;
+}
+
+.types h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    color: #FF6600;
+    margin-bottom: 1.5rem;
+}
+
+.typesGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.typeCard {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(10, 10, 10, 0.5);
+    border: 1px solid rgba(255, 102, 0, 0.08);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.typeCard:hover {
+    border-color: rgba(255, 102, 0, 0.25);
+    transform: translateY(-4px);
+}
+
+.typeCard span {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.typeCard h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: #FFFFFF;
+    margin-bottom: 0.5rem;
+}
+
+.typeCard p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: rgba(255, 245, 238, 0.6);
+    line-height: 1.5;
+}
+
+.cta {
+    text-align: center;
+    padding: 3rem;
+    background: linear-gradient(135deg, rgba(139, 0, 0, 0.3), rgba(26, 26, 26, 0.8));
+    border: 1px solid rgba(255, 102, 0, 0.15);
+    border-radius: 12px;
+}
+
+.cta h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    margin-bottom: 0.75rem;
+}
+
+.cta p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: rgba(255, 245, 238, 0.7);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 600px) {
+    .typesGrid {
+        grid-template-columns: 1fr;
+    }
+}
