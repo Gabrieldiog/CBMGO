@@ -4,8 +4,9 @@ import ParticlesBackground from '../../components/ParticlesBackground/ParticlesB
 import { FireHelmetIcon, DocumentScrollIcon, CameraHistoricIcon } from '../../components/Icons/BombeiroIcons';
 import { COLLECTIONS_MAP } from '../../api/tainacan';
 import styles from './Collections.module.css';
+import type { ReactNode } from 'react';
 
-const ICON_MAP = {
+const ICON_MAP: Record<string, ReactNode> = {
     objetos: <FireHelmetIcon size={48} />,
     documentos: <DocumentScrollIcon size={48} />,
     fotografias: <CameraHistoricIcon size={48} />,

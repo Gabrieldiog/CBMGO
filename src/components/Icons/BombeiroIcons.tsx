@@ -3,7 +3,12 @@
  * Ícones vetoriais temáticos de bombeiros
  */
 
-export function FireHelmetIcon({ size = 48, color = '#FF6600' }) {
+interface IconProps {
+    size?: number;
+    color?: string;
+}
+
+export function FireHelmetIcon({ size = 48, color = '#FF6600' }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M32 6C20 6 12 14 10 24C8 34 10 40 10 40H54C54 40 56 34 54 24C52 14 44 6 32 6Z" fill={color} opacity="0.9" />
@@ -16,7 +21,7 @@ export function FireHelmetIcon({ size = 48, color = '#FF6600' }) {
     );
 }
 
-export function FireExtinguisherIcon({ size = 48, color = '#CC0000' }) {
+export function FireExtinguisherIcon({ size = 48, color = '#CC0000' }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="22" y="16" width="20" height="38" rx="4" fill={color} />
@@ -29,7 +34,7 @@ export function FireExtinguisherIcon({ size = 48, color = '#CC0000' }) {
     );
 }
 
-export function DocumentScrollIcon({ size = 48, color = '#FF8533' }) {
+export function DocumentScrollIcon({ size = 48, color = '#FF8533' }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M16 8H40L48 16V56H16V8Z" fill={color} opacity="0.15" stroke={color} strokeWidth="2" />
@@ -45,7 +50,7 @@ export function DocumentScrollIcon({ size = 48, color = '#FF8533' }) {
     );
 }
 
-export function CameraHistoricIcon({ size = 48, color = '#FFD700' }) {
+export function CameraHistoricIcon({ size = 48, color = '#FFD700' }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M8 20H56V52H8V20Z" fill={color} opacity="0.15" stroke={color} strokeWidth="2" rx="3" />
@@ -58,7 +63,7 @@ export function CameraHistoricIcon({ size = 48, color = '#FFD700' }) {
     );
 }
 
-export function PhoenixIcon({ size = 48, color = '#FF6600' }) {
+export function PhoenixIcon({ size = 48, color = '#FF6600' }: IconProps) {
     return (
         <svg width={size} height={size} viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M32 58C32 58 16 46 16 32C16 22 22 14 32 10C42 14 48 22 48 32C48 46 32 58 32 58Z" fill={color} opacity="0.2" />

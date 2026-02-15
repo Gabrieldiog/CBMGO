@@ -1,4 +1,4 @@
-# 🏛️ Museu Virtual — CBMGO
+
 
 **Museu Virtual do Corpo de Bombeiros Militar do Estado de Goiás**
 
@@ -6,7 +6,7 @@ Plataforma web interativa desenvolvida para preservar, digitalizar e compartilha
 
 ---
 
-## 📋 Sobre o Projeto
+## Sobre o Projeto
 
 O Museu Virtual do CBMGO é uma plataforma digital que nasceu da necessidade de preservar e tornar acessível a rica história do Corpo de Bombeiros Militar do Estado de Goiás. Por meio de um ambiente online imersivo, o projeto permite que qualquer pessoa conheça a trajetória da corporação — desde os 11 policiais militares enviados a Minas Gerais em 1957 para a primeira formação, até a corporação autônoma presente em todo o estado nos dias de hoje.
 
@@ -14,13 +14,13 @@ O sistema conecta-se ao **Tainacan**, uma plataforma de gestão de acervos digit
 
 ---
 
-## 🎯 Objetivo
+## Objetivo
 
 Preservar a memória institucional do CBMGO e fortalecer o sentimento de pertencimento dos bombeiros goianos e de toda a sociedade, oferecendo um museu sem paredes — acessível de qualquer lugar, a qualquer momento.
 
 ---
 
-## 🔥 O que o Museu Oferece
+##  O que o Museu Oferece
 
 - **Acervo Digital** — Navegação por coleções de objetos, documentos e fotografias preservados digitalmente, com imagens e metadados detalhados.
 - **Nossa História** — Uma narrativa interativa que conta os principais marcos da corporação, de 1957 até o presente, com efeito de páginas de livro.
@@ -30,6 +30,3 @@ Preservar a memória institucional do CBMGO e fortalecer o sentimento de pertenc
 
 ---
 
-## 👥 Créditos
-
-Desenvolvido para o **Corpo de Bombeiros Militar do Estado de Goiás** como parte do projeto de preservação da memória institucional.

@@ -1,5 +1,14 @@
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '../../hooks/useScrollReveal';
+import type { ReactNode } from 'react';
+
+interface ScrollRevealProps {
+    children: ReactNode;
+    direction?: 'up' | 'down' | 'left' | 'right' | 'scale';
+    delay?: number;
+    duration?: number;
+    className?: string;
+}
 
 export default function ScrollReveal({
     children,
@@ -7,7 +16,7 @@ export default function ScrollReveal({
     delay = 0,
     duration = 0.6,
     className = '',
-}) {
+}: ScrollRevealProps) {
     const { ref, isVisible } = useScrollReveal();
 
     const variants = {

@@ -1,36 +1,61 @@
 const API_BASE = '/wp-json/tainacan/v2';
 const WP_ORIGIN = 'http://museu-virtual.local';
 
-/**
- * Reescreve URLs absolutas de museu-virtual.local para caminhos relativos,
- * permitindo que o proxy do Vite encaminhe as requisições corretamente.
- */
-function rewriteUrl(url) {
-    if (!url || typeof url !== 'string') return url;
+// ===== Tipos =====
+
+export interface TainacanThumbnail {
+    [size: string]: string[] | string;
+}
+
+export interface TainacanItem {
+    id: number;
+    title: string | { rendered: string };
+    description?: string;
+    content?: { rendered: string };
+    thumbnail?: TainacanThumbnail | string;
+    document?: string;
+    document_as_html?: string;
+    document_type?: string;
+    document_mimetype?: string;
+    metadata?: Record<string, {
+        name?: string;
+        value?: string;
+        value_as_string?: string;
+    }>;
+    total_items?: { publish?: string };
+    [key: string]: unknown;
+}
+
+export interface CollectionInfo {
+    id: number;
+    name: string;
+    slug: string;
+    description: string;
+    icon: string;
+}
+
+export interface PaginatedItems {
+    items: TainacanItem[];
+    totalItems: number;
+    totalPages: number;
+}
+
+// ===== Funções auxiliares =====
+
+function rewriteUrl(url: string | null | undefined): string | null {
+    if (!url || typeof url !== 'string') return null;
     if (url.startsWith(WP_ORIGIN)) {
         return url.replace(WP_ORIGIN, '');
     }
     return url;
 }
 
-/**
- * Extrai a melhor URL de thumbnail de um item do Tainacan.
- *
- * Formato retornado pela API (com fetch_only=thumbnail):
- *   item.thumbnail = {
- *     medium: [url, width, height, cropped, blurHash],
- *     full: [url, width, height, cropped, blurHash],
- *     tainacan-medium: [...], etc
- *   }
- *
- * Também tenta extrair de document_as_html como fallback.
- */
-export function getThumbnailUrl(item) {
+export function getThumbnailUrl(item: TainacanItem | null): string | null {
     if (!item) return null;
 
-    // caso 1: thumbnail é um objeto com tamanhos (Tainacan v2 com fetch_only)
+    // caso 1: thumbnail é um objeto com tamanhos
     if (item.thumbnail && typeof item.thumbnail === 'object') {
-        const thumb = item.thumbnail;
+        const thumb = item.thumbnail as TainacanThumbnail;
         const sizes = ['tainacan-medium', 'medium_large', 'medium', 'large', 'full', 'thumbnail'];
         for (const size of sizes) {
             if (thumb[size]) {
@@ -39,7 +64,6 @@ export function getThumbnailUrl(item) {
                 if (url && typeof url === 'string') return rewriteUrl(url);
             }
         }
-        // fallback: qualquer chave que seja array com URL
         for (const key of Object.keys(thumb)) {
             const val = thumb[key];
             const url = Array.isArray(val) ? val[0] : (typeof val === 'string' ? val : null);
@@ -52,7 +76,7 @@ export function getThumbnailUrl(item) {
         return rewriteUrl(item.thumbnail);
     }
 
-    // caso 3: extrair URL de document_as_html (que contém <img src="...">)
+    // caso 3: extrair URL de document_as_html
     if (item.document_as_html && typeof item.document_as_html === 'string') {
         const match = item.document_as_html.match(/src="([^"]+)"/);
         if (match && match[1]) return rewriteUrl(match[1]);
@@ -61,7 +85,9 @@ export function getThumbnailUrl(item) {
     return null;
 }
 
-export async function fetchCollections() {
+// ===== Funções de fetch =====
+
+export async function fetchCollections(): Promise<TainacanItem[]> {
     try {
         const res = await fetch(`${API_BASE}/collections`);
         if (!res.ok) throw new Error('Erro ao buscar coleções');
@@ -72,7 +98,7 @@ export async function fetchCollections() {
     }
 }
 
-export async function fetchCollectionItems(collectionId, page = 1, perPage = 12) {
+export async function fetchCollectionItems(collectionId: number, page: number = 1, perPage: number = 12): Promise<PaginatedItems> {
     try {
         const res = await fetch(
             `${API_BASE}/collection/${collectionId}/items?paged=${page}&perpage=${perPage}&fetch_only=id,title,description,thumbnail,document,document_as_html,_thumbnail_id,document_type,document_mimetype`
@@ -80,7 +106,6 @@ export async function fetchCollectionItems(collectionId, page = 1, perPage = 12)
         if (!res.ok) throw new Error('Erro ao buscar itens');
         const data = await res.json();
 
-        // Debug: log da estrutura do primeiro item
         const firstItem = data.items?.[0] || (Array.isArray(data) ? data[0] : null);
         if (firstItem) {
             console.log('[Tainacan] Item structure:', {
@@ -101,11 +126,11 @@ export async function fetchCollectionItems(collectionId, page = 1, perPage = 12)
     }
 }
 
-export async function fetchItem(itemId) {
+export async function fetchItem(itemId: string | number): Promise<TainacanItem | null> {
     try {
         const res = await fetch(`${API_BASE}/items/${itemId}`);
         if (!res.ok) throw new Error('Erro ao buscar item');
-        const item = await res.json();
+        const item: TainacanItem = await res.json();
 
         console.log('[Tainacan] Item detail:', {
             id: item.id,
@@ -122,16 +147,16 @@ export async function fetchItem(itemId) {
 }
 
 // Map coleções com slug para roteamento
-export const COLLECTIONS_MAP = {
+export const COLLECTIONS_MAP: Record<string, CollectionInfo> = {
     objetos: { id: 66, name: 'Objetos', slug: 'objetos', description: 'Coleção de objetos históricos preservados que contam a história da corporação.', icon: '🏛️' },
     documentos: { id: 39, name: 'Documentos', slug: 'documentos', description: 'Documentos históricos, registros e publicações de relevância institucional.', icon: '📜' },
     fotografias: { id: 5, name: 'Fotografias', slug: 'fotografias', description: 'Acervo fotográfico que registra momentos marcantes da história.', icon: '📷' },
 };
 
-export function getCollectionBySlug(slug) {
+export function getCollectionBySlug(slug: string): CollectionInfo | null {
     return COLLECTIONS_MAP[slug] || null;
 }
 
-export function getCollectionById(id) {
+export function getCollectionById(id: number): CollectionInfo | null {
     return Object.values(COLLECTIONS_MAP).find(c => c.id === id) || null;
 }

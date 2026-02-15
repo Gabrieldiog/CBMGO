@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { fetchCollections } from '../api/tainacan';
+import type { TainacanItem } from '../api/tainacan';
 
-export function useCollections() {
-    const [collections, setCollections] = useState([]);
+interface UseCollectionsReturn {
+    collections: TainacanItem[];
+    loading: boolean;
+    error: string | null;
+}
+
+export function useCollections(): UseCollectionsReturn {
+    const [collections, setCollections] = useState<TainacanItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         let cancelled = false;

@@ -4,7 +4,7 @@ import { getThumbnailUrl } from '../../api/tainacan';
 import styles from './ItemDetail.module.css';
 
 export default function ItemDetail() {
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>();
     const { item, loading } = useItem(id);
 
     if (loading) {
@@ -26,7 +26,7 @@ export default function ItemDetail() {
         );
     }
 
-    const title = typeof item.title === 'string' ? item.title : item.title?.rendered || 'Sem título';
+    const title = typeof item.title === 'string' ? item.title : (item.title as { rendered: string })?.rendered || 'Sem título';
     const description = item.description || item.content?.rendered || '';
     const thumbnail = getThumbnailUrl(item);
     const metadata = item.metadata || {};

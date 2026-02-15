@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
+import type { ReactNode } from 'react';
 
 const pageVariants = {
     initial: {
@@ -11,7 +12,7 @@ const pageVariants = {
         y: 0,
         transition: {
             duration: 0.5,
-            ease: [0.25, 0.46, 0.45, 0.94],
+            ease: [0.25, 0.46, 0.45, 0.94] as [number, number, number, number],
         },
     },
     exit: {
@@ -19,12 +20,16 @@ const pageVariants = {
         y: -10,
         transition: {
             duration: 0.3,
-            ease: 'easeIn',
+            ease: 'easeIn' as const,
         },
     },
 };
 
-export default function PageTransition({ children }) {
+interface PageTransitionProps {
+    children: ReactNode;
+}
+
+export default function PageTransition({ children }: PageTransitionProps) {
     const location = useLocation();
 
     return (

@@ -3,7 +3,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import styles from './Navbar.module.css';
 
-const NAV_LINKS = [
+interface NavLink {
+    path: string;
+    label: string;
+}
+
+const NAV_LINKS: NavLink[] = [
     { path: '/', label: 'Início' },
     { path: '/colecoes', label: 'Coleções' },
     { path: '/sobre', label: 'O Museu' },

@@ -3,26 +3,43 @@ import styles from './ParticlesBackground.module.css';
 
 const FIRE_COLORS = ['#FF6600', '#FF8533', '#CC0000', '#E62020', '#FFD700', '#FF3300'];
 
-export default function ParticlesBackground({ count = 50 }) {
-    const canvasRef = useRef(null);
+interface Particle {
+    x: number;
+    y: number;
+    size: number;
+    speedX: number;
+    speedY: number;
+    opacity: number;
+    pulse: number;
+    pulseSpeed: number;
+    color: string;
+}
+
+interface ParticlesBackgroundProps {
+    count?: number;
+}
+
+export default function ParticlesBackground({ count = 50 }: ParticlesBackgroundProps) {
+    const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
-        let animId;
-        let particles = [];
+        if (!ctx) return;
+        let animId: number;
+        let particles: Particle[] = [];
 
         function resize() {
-            canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-            canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-            ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+            canvas!.width = canvas!.offsetWidth * window.devicePixelRatio;
+            canvas!.height = canvas!.offsetHeight * window.devicePixelRatio;
+            ctx!.scale(window.devicePixelRatio, window.devicePixelRatio);
         }
 
         function createParticles() {
             particles = [];
-            const w = canvas.offsetWidth;
-            const h = canvas.offsetHeight;
+            const w = canvas!.offsetWidth;
+            const h = canvas!.offsetHeight;
             for (let i = 0; i < count; i++) {
                 particles.push({
                     x: Math.random() * w,
@@ -39,9 +56,9 @@ export default function ParticlesBackground({ count = 50 }) {
         }
 
         function draw() {
-            const w = canvas.offsetWidth;
-            const h = canvas.offsetHeight;
-            ctx.clearRect(0, 0, w, h);
+            const w = canvas!.offsetWidth;
+            const h = canvas!.offsetHeight;
+            ctx!.clearRect(0, 0, w, h);
 
             particles.forEach(p => {
                 p.x += p.speedX;
@@ -54,19 +71,19 @@ export default function ParticlesBackground({ count = 50 }) {
 
                 const currentOpacity = p.opacity * (0.5 + 0.5 * Math.sin(p.pulse));
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.globalAlpha = currentOpacity;
-                ctx.fill();
+                ctx!.beginPath();
+                ctx!.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx!.fillStyle = p.color;
+                ctx!.globalAlpha = currentOpacity;
+                ctx!.fill();
 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
-                ctx.fillStyle = p.color;
-                ctx.globalAlpha = currentOpacity * 0.15;
-                ctx.fill();
+                ctx!.beginPath();
+                ctx!.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+                ctx!.fillStyle = p.color;
+                ctx!.globalAlpha = currentOpacity * 0.15;
+                ctx!.fill();
 
-                ctx.globalAlpha = 1;
+                ctx!.globalAlpha = 1;
             });
 
             animId = requestAnimationFrame(draw);
@@ -76,10 +93,11 @@ export default function ParticlesBackground({ count = 50 }) {
         createParticles();
         draw();
 
-        window.addEventListener('resize', () => { resize(); createParticles(); });
+        const handleResize = () => { resize(); createParticles(); };
+        window.addEventListener('resize', handleResize);
         return () => {
             cancelAnimationFrame(animId);
-            window.removeEventListener('resize', resize);
+            window.removeEventListener('resize', handleResize);
         };
     }, [count]);
 
